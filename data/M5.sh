@@ -1,0 +1,1 @@
+unzip data/m5-forecasting-accuracy.zip -d data/M5
