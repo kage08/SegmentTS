@@ -5,7 +5,9 @@ Large Pre-trained Time-series models
 ## Setup
 
 ```bash
-mamba env create -p ./.env -f environment.yml
-conda activate ./.env
-pip install -e ".[dev]"
+# Install uv (Tested with version 0.4.*)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Sync dependencies
+uv sync
 ```
