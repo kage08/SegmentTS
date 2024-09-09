@@ -1,8 +1,7 @@
+import math
+
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.nn.utils import weight_norm
-import math
 
 
 class PositionalEmbedding(nn.Module):
@@ -90,7 +89,7 @@ class TemporalEmbedding(nn.Module):
         self.day_embed = Embed(day_size, d_model)
         self.month_embed = Embed(month_size, d_model)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
         x = x.long()
 
         minute_x = (

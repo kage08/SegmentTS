@@ -1,12 +1,6 @@
-from typing import Optional
-import math
-import einops
-import torch
-from torch import Tensor
 import torch.nn as nn
-import torch.nn.functional as F
 
-from .transformers.layers import PositionalEncoding, CrossAttention, TransformerAttn
+from .transformers.layers import TransformerAttn
 
 
 class EmbedAttenSeq(nn.Module):

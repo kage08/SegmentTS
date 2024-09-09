@@ -5,10 +5,8 @@ Created on Wed Jan 19 12:22:14 2022
 
 @author: ranakroychowdhury
 """
-import sys
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 name = "DataLoader"

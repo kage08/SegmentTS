@@ -1,13 +1,15 @@
-from typing import Callable, Optional
-import torch
-from torch import nn
-from torch import Tensor
-import torch.nn.functional as F
+from typing import Optional
+
 import numpy as np
+import torch
+import torch.nn.functional as F
+from torch import Tensor, nn
+
+from .PatchTST_layers import Transpose, get_activation_fn, positional_encoding
 
 # from collections import OrderedDict
-from .PatchTST_layers import *
 from .RevIN import RevIN
+
 
 # Cell
 class PatchTST_backbone(nn.Module):
@@ -49,7 +51,6 @@ class PatchTST_backbone(nn.Module):
         verbose: bool = False,
         **kwargs,
     ):
-
         super().__init__()
 
         # RevIn
@@ -207,7 +208,6 @@ class TSTiEncoder(nn.Module):  # i means channel-independent
         verbose=False,
         **kwargs,
     ):
-
         super().__init__()
 
         self.patch_num = patch_num
@@ -245,7 +245,6 @@ class TSTiEncoder(nn.Module):  # i means channel-independent
         )
 
     def forward(self, x) -> Tensor:  # x: [bs x nvars x patch_len x patch_num]
-
         n_vars = x.shape[1]
         # Input encoding
         x = x.permute(0, 1, 3, 2)  # x: [bs x nvars x patch_num x patch_len]
@@ -407,7 +406,6 @@ class TSTEncoderLayer(nn.Module):
         key_padding_mask: Optional[Tensor] = None,
         attn_mask: Optional[Tensor] = None,
     ) -> Tensor:
-
         # Multi-Head attention sublayer
         if self.pre_norm:
             src = self.norm_attn(src)
@@ -505,7 +503,6 @@ class _MultiheadAttention(nn.Module):
         key_padding_mask: Optional[Tensor] = None,
         attn_mask: Optional[Tensor] = None,
     ):
-
         bs = Q.size(0)
         if K is None:
             K = Q
