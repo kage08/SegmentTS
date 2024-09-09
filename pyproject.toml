@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.scripts]
-hello = "segmentts:hello"
+hello = "lptm:hello"
 
 [build-system]
 requires = ["hatchling"]
@@ -26,5 +26,6 @@ build-backend = "hatchling.build"
 [tool.uv]
 dev-dependencies = [
     "jupyter>=1.1.1",
+    "pytest>=8.3.2",
     "ruff>=0.6.4",
 ]
