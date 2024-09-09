@@ -1,3 +1,30 @@
+[project]
+name = "lptm"
+version = "0.1.0"
+description = "LPTM for foundational time-series models"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aim>=3.24.0",
+    "einops>=0.8.0",
+    "matplotlib>=3.9.2",
+    "numpy>=2.1.1",
+    "pandas>=2.2.2",
+    "scikit-learn>=1.5.1",
+    "scipy>=1.14.1",
+    "torch>=2.4.1",
+    "tqdm>=4.66.5",
+]
+
+[project.scripts]
+hello = "segmentts:hello"
+
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "jupyter>=1.1.1",
+    "ruff>=0.6.4",
+]
