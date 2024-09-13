@@ -130,7 +130,9 @@ class AutoCorrelation(nn.Module):
             delays_agg = delays_agg + pattern * (tmp_corr[..., i].unsqueeze(-1))
         return delays_agg
 
-    def forward(self, queries, keys, values, attn_mask):
+    def forward(
+        self, queries: torch.Tensor, keys: torch.Tensor, values: torch.Tensor, attn_mask
+    ):
         B, L, H, E = queries.shape
         _, S, _, D = values.shape
         if L > S:
@@ -142,10 +144,14 @@ class AutoCorrelation(nn.Module):
             keys = keys[:, :L, :, :]
 
         # period-based dependencies
-        q_fft = torch.fft.rfft(queries.permute(0, 2, 3, 1).contiguous(), dim=-1)
-        k_fft = torch.fft.rfft(keys.permute(0, 2, 3, 1).contiguous(), dim=-1)
+        q_fft: torch.Tensor = torch.fft.rfft(
+            queries.permute(0, 2, 3, 1).contiguous(), dim=-1
+        )
+        k_fft: torch.Tensor = torch.fft.rfft(
+            keys.permute(0, 2, 3, 1).contiguous(), dim=-1
+        )
         res = q_fft * torch.conj(k_fft)
-        corr = torch.fft.irfft(res, dim=-1)
+        corr: torch.Tensor = torch.fft.irfft(res, dim=-1)
 
         # time delay agg
         if self.training:

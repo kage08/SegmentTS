@@ -1,6 +1,7 @@
+import math
+
 import torch
 from torch import nn
-import math
 
 
 class Transpose(nn.Module):
@@ -8,7 +9,7 @@ class Transpose(nn.Module):
         super().__init__()
         self.dims, self.contiguous = dims, contiguous
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
         if self.contiguous:
             return x.transpose(*self.dims).contiguous()
         else:
@@ -40,7 +41,7 @@ class moving_avg(nn.Module):
         self.kernel_size = kernel_size
         self.avg = nn.AvgPool1d(kernel_size=kernel_size, stride=stride, padding=0)
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
         # padding on the both ends of time series
         front = x[:, 0:1, :].repeat(1, (self.kernel_size - 1) // 2, 1)
         end = x[:, -1:, :].repeat(1, (self.kernel_size - 1) // 2, 1)
@@ -84,10 +85,16 @@ SinCosPosEncoding = PositionalEncoding
 
 
 def Coord2dPosEncoding(
-    q_len, d_model, exponential=False, normalize=True, eps=1e-3, verbose=False
+    q_len: int,
+    d_model,
+    exponential: bool = False,
+    normalize: bool = True,
+    eps: float = 1e-3,
+    verbose: bool = False,
 ):
     x = 0.5 if exponential else 1
     i = 0
+    cpe = torch.Tensor()
     for i in range(100):
         cpe = (
             2
@@ -95,7 +102,7 @@ def Coord2dPosEncoding(
             * (torch.linspace(0, 1, d_model).reshape(1, -1) ** x)
             - 1
         )
-        pv(f"{i:4.0f}  {x:5.3f}  {cpe.mean():+6.3f}", verbose)
+        print(f"{i:4.0f}  {x:5.3f}  {cpe.mean():+6.3f}", verbose)
         if abs(cpe.mean()) <= eps:
             break
         elif cpe.mean() > eps:
@@ -120,9 +127,9 @@ def Coord1dPosEncoding(q_len, exponential=False, normalize=True):
     return cpe
 
 
-def positional_encoding(pe, learn_pe, q_len, d_model):
+def positional_encoding(pe: str | None, learn_pe: bool, q_len: int, d_model):
     # Positional encoding
-    if pe == None:
+    if pe is None:
         W_pos = torch.empty(
             (q_len, d_model)
         )  # pe = None and learn_pe = False can be used to measure impact of pe
