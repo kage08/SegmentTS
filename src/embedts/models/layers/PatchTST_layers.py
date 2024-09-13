@@ -1,4 +1,5 @@
 import math
+from typing import Type
 
 import torch
 from torch import nn
@@ -16,7 +17,7 @@ class Transpose(nn.Module):
             return x.transpose(*self.dims)
 
 
-def get_activation_fn(activation):
+def get_activation_fn(activation: str | Type[nn.Module]):
     if callable(activation):
         return activation()
     elif activation.lower() == "relu":
