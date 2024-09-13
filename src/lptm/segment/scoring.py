@@ -1,8 +1,10 @@
+from abc import ABC, abstractmethod
+
 import torch
 import torch.nn as nn
 
 
-class ScoringModuleBase(nn.Module):
+class ScoringModuleBase(nn.Module, ABC):
     def __init__(self, embed_size: int, hidden_size: int | None = None):
         super(ScoringModuleBase, self).__init__()
         self.embed_size = embed_size
@@ -35,6 +37,7 @@ class ScoringModuleBase(nn.Module):
 
         return scores
 
+    @abstractmethod
     def compute_scores(self, W1: torch.Tensor, W2: torch.Tensor) -> torch.Tensor:
         raise NotImplementedError("Subclasses must implement compute_scores method")
 
