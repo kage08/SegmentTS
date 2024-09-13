@@ -49,9 +49,6 @@ class ScoringModuleAddn(ScoringModuleBase):
         nn.init.uniform_(self.v)
 
     def compute_scores(self, W1: torch.Tensor, W2: torch.Tensor) -> torch.Tensor:
-        import pdb
-
-        pdb.set_trace()
         scores = (
             W1.unsqueeze(1) + W2.unsqueeze(2) + self.b[None, None, None, :]
         )  # (batch_size, seq_len, seq_len, hidden_size)
