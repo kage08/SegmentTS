@@ -113,3 +113,18 @@ def prune_segments_all(
         out_scores.append(score)
 
     return segments, out_scores
+
+
+def select_segments(scores: npt.NDArray[np.float32], num_segments: int):
+    """Select the highest scoring segments
+
+    Args:
+        scores (npt.NDArray[np.float32]): scores of the segments [batch, seq_len, seq_len]
+        num_segments (int): number of segments to select
+
+    Returns:
+        npt.NDArray[np.int32]: selected segments start and end indices [batch, num_segments, 2]
+        npt.NDArray[np.float32]: selected segments scores [batch, num_segments]
+    """
+    idxs, scores = select_highest_suffix(scores)
+    return prune_segments_all(idxs, scores, num_segments)
