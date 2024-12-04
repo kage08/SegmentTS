@@ -1,4 +1,4 @@
-# This repo is arxived!!
+# This repo is archived!!
 # Please check out https://github.com/AdityaLab/Samay
 
 # LPTM
